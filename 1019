@@ -1,0 +1,43 @@
+#include<iostream>
+#include<vector>
+
+using namespace std;
+
+int ZeroOnePack(vector<int> w, vector<int> v,int N,int C){
+    vector<int> f(C+1);
+    f[0]=0;
+    for(int j=1; j<C; j++){
+        if(j>=w[0])
+            f[j] = v[0];
+        else
+            f[j] = 0;
+    }
+    for(int i=1; i<N; i++){
+        for(int j=C; j>=w[i]; j--){
+            f[j] = max(f[j],f[j-w[i]]+v[i]);
+            //cout << f[j] << "   ";
+        }
+        //cout << endl;
+    }
+    return f[C];
+}
+
+
+int main() {
+    int M,n,c;
+    // n = 3;
+    // c = 10;
+    // vector<int> s = {1,2,7};
+    // vector<int> v = {3,5,2};
+    // cout << "最大价值：" << ZeroOnePack(s,v,n,c);
+    cin >> M;
+    for(int i=0; i<M; i++){
+        cin >> n >> c;
+        vector<int> s(n),v(n);
+        for(int j=0; j<n; j++)
+            cin >> s[j] >> v[j];
+        cout << ZeroOnePack(s,v,n,c) << endl;
+    }   
+    
+    return 0;
+}
