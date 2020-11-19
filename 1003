@@ -1,0 +1,61 @@
+#include<iostream>
+#include<limits.h>
+#include<vector>
+
+using namespace std;
+
+int temp[1000];
+/*
+全局的一个temp数组，不用全局的话需要每次申请一个，并传参
+*/
+
+void Merge(int *a, int n, int left, int mid, int right){
+    
+    int i=left,k=left,j=mid+1;
+    while(i <= mid && j <= right){
+         if(a[i]<=a[j])
+             temp[k++]=a[i++];
+        else temp[k++]=a[j++];
+    }
+    while(i<=mid)
+        temp[k++]=a[i++];
+    while(j<=right)
+        temp[k++]=a[j++];
+   for(k=left;k<=right;k++)//拷贝回原数组
+       a[k] = temp[k];
+    return;
+        
+}
+
+
+void MergeSort(int *a,int n,int left, int right){
+    if(left<right){//Recursive
+        int mid = left+(right-left)/2;
+        MergeSort(a,n,left,mid);
+        
+        MergeSort(a,n,mid+1,right);
+        
+        Merge(a,n,left,mid,right);
+    }
+    return;
+}
+
+
+
+
+int main() {
+    int m;
+    cin >> m;
+    for(int i=0; i<m; i++){//m个sample
+        int n;
+        cin >> n; //8<n<1000
+        int v[n];
+        for(int j=0; j<n; j++)
+            cin >> v[j];
+        MergeSort(v,n,0,n-1);
+        for(int k = 0; k < n; k++) cout << v[k] << ' ';
+        cout << endl;
+    }
+        
+    return 0;
+}
