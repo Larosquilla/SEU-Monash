@@ -1,15 +1,14 @@
 #include<iostream>
-#include<limits.h>
-#include<vector>
 
 using namespace std;
 
 int temp[1000];
+int res[1000];
 /*
 全局的一个temp数组，不用全局的话需要每次申请一个，并传参
 */
 
-void Merge(int *a, int n, int left, int mid, int right){
+void Merge(int *a, int left, int mid, int right){
     
     int i=left,k=left,j=mid+1;
     while(i <= mid && j <= right){
@@ -28,16 +27,18 @@ void Merge(int *a, int n, int left, int mid, int right){
 }
 
 
-void MergeSort(int *a,int n,int left, int right){
+void MergeSort(int *a,int depth,int left, int right){
     if(left<right){//Recursive
         int mid = left+(right-left)/2;
-        MergeSort(a,n,left,mid);
+        MergeSort(a,depth+1,left,mid);//深度+1
         
-        MergeSort(a,n,mid+1,right);
+        MergeSort(a,depth+1,mid+1,right);
         
-        Merge(a,n,left,mid,right);
+        Merge(a,left,mid,right);
+        if(depth==3)
+            for(int i=left;i<=right;i++)
+                res[i]=a[i];
     }
-    return;
 }
 
 
@@ -52,8 +53,8 @@ int main() {
         int v[n];
         for(int j=0; j<n; j++)
             cin >> v[j];
-        MergeSort(v,n,0,n-1);
-        for(int k = 0; k < n; k++) cout << v[k] << ' ';
+        MergeSort(v,1,0,n-1);
+        for(int k = 0; k < n; k++) cout << res[k] << ' ';
         cout << endl;
     }
         
