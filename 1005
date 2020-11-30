@@ -1,0 +1,53 @@
+
+#include<iostream>
+#include<limits.h>
+
+using namespace std;
+int num;
+
+//依据基准值进行分区的过程，快排的核心
+int Partition(int A[],int n,int low,int high){
+    int pivot = A[low]; //将第一个元素设为基准值，根据严蔚敏的教材
+    while(low<high){ //分区结束条件
+        while(low<high&&A[high]>=pivot)high--;
+        A[low] = A[high];
+        while(low<high&&A[low]<=pivot)low++;
+        A[high]=A[low];
+    }//while
+    A[low] = pivot; //结束的时候low==high==基准值的最终位置
+    //for(int k=0;k<n;k++)cout << A[k] << ' '; 
+    //cout << endl;
+    num++;
+    return low;
+}//Partition
+
+void QuickSort(int A[],int n,int low,int high){
+    if(low<high){
+        int pivotpos = Partition(A,n,low,high); //返回分区后的基准值
+        QuickSort(A,n,low,pivotpos-1);//对左子表进行递归排序
+        QuickSort(A,n,pivotpos+1,high);//对右子表进行递归排序
+    }
+}//QuickSort
+
+
+
+
+int main() {
+    int m;
+    cin >> m;
+    for(int i=0; i<m; i++){//m个sample
+        int n;
+        num = 0;
+        cin >> n; //8<n<1000
+        int v[n];
+        for(int j=0; j<n; j++)
+            cin >> v[j];
+        QuickSort(v,n,0,n-1);
+        for(int k = 0; k < n; k++) cout << v[k] << ' ';
+        cout << endl;
+        cout << "执行了" << num << "次partition";
+        cout << endl;
+    }
+        
+    return 0;
+}
