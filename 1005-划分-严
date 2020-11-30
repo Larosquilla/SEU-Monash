@@ -1,6 +1,4 @@
-
 #include<iostream>
-#include<limits.h>
 
 using namespace std;
 int res[1000];
@@ -37,9 +35,6 @@ void QuickSort(int A[],int depth,int low,int high){
     
     
 }//QuickSort
-
-
-
 
 int main() {
     int m;
