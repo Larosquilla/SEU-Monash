@@ -1,0 +1,63 @@
+#include<iostream>
+
+using namespace std;
+int res[1000];
+
+//按照课件上的方法进行划分
+int Partition(int A[],int low,int high){
+    int p = low; //将第一个元素设为基准值
+    int temp=0;
+    for(int i=low;i<=high;i++){
+        if(A[i]<A[low]){
+            p++;
+            temp = A[p];
+            A[p]=A[i];
+            A[i]=temp;
+        }
+    }
+    //结束的时候A[low+1]~A[p]都是比pivot小，A[p+1]~A[high]都比pivot大
+    temp = A[low];
+    A[low] = A[p];
+    A[p]=temp;
+
+    return p;
+}//Partition
+
+void QuickSort(int A[],int depth,int low,int high){
+     
+    if(low<high){
+        int pivotpos = Partition(A,low,high); //返回分区后的基准值
+        if(depth==1)//第二层里面已经没有第一层的那个pivot了
+          res[pivotpos]=A[pivotpos];
+        if(depth==2){
+        for(int i=low;i<=high;i++)
+            res[i]=A[i];
+        }
+        
+        QuickSort(A,depth+1,low,pivotpos-1);//对左子表进行递归排序
+        QuickSort(A,depth+1,pivotpos+1,high);//对右子表进行递归排序
+        
+    }
+    
+    
+}//QuickSort
+
+
+
+
+int main() {
+    int m;
+    cin >> m;
+    for(int i=0; i<m; i++){//m个sample
+        int n;
+        cin >> n; //8<n<1000
+        int v[n];
+        for(int j=0; j<n; j++)
+            cin >> v[j];
+        QuickSort(v,1,0,n-1);
+        for(int k = 0; k < n; k++) cout << res[k] << ' ';
+        cout << endl;
+    }
+        
+    return 0;
+}
