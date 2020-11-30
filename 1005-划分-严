@@ -2,7 +2,6 @@
 
 using namespace std;
 int res[1000];
-int depth;
 
 //依据基准值进行分区的过程，快排的核心
 int Partition(int A[],int low,int high){
