@@ -1,0 +1,45 @@
+#include<iostream>
+
+using namespace std;
+
+
+void AdjustDown(int A[],int k,int n){//将节点k向下调整
+    int temp = A[k];
+    for(int i=2*k+1;i<n;i=2*i+1){
+        if(i<n-1&&A[i]>A[i+1])
+        i++;//选较小的那个，左子树优先
+    if(temp<=A[i])
+        break;
+    else{
+        A[k]=A[i];
+        k = i;//指向下一个子树的根
+    }
+    }//for
+    A[k] = temp; 
+}
+
+void BuildMinHeap(int A[], int n){
+    for(int i=(n-1)/2;i>=0;i--){
+        AdjustDown(A,i,n);
+    }
+}
+
+
+
+
+int main() {
+    int m;
+    cin >> m;
+    for(int i=0; i<m; i++){//m个sample
+        int n;
+        cin >> n; //8<n<1000
+        int v[n];
+        for(int j=0; j<n; j++)
+            cin >> v[j];
+        BuildMinHeap(v,n);
+        for(int k = 0; k < n; k++) cout << v[k] << ' ';
+        cout << endl;
+    }
+        
+    return 0;
+}
