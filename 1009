@@ -1,0 +1,46 @@
+#include<iostream>
+#include<cstring>
+
+
+using namespace std;
+
+
+int Intercept(const int v[], int N){
+    
+    int dp[N];//dp[i]表示的是从i~N-1有几个导弹
+    
+    memset(dp,0,sizeof(dp));
+    for(int i=0;i<N;i++)
+        dp[i]=0;
+
+    for(int i=N-1; i>=0; i--){//高度从小到大，逆序
+        for(int j=i+1;j<N&&j>i;j++)
+            if(v[i]>=v[j])
+                dp[i]=max(dp[i],dp[j]+1);
+    }//for     
+    
+    int temp=0;
+    for(int i=0;i<N;i++)
+        if(dp[i]>temp)
+            temp = dp[i];
+    return temp+1;
+
+}
+
+
+int main() {
+    int M,N,K;
+
+    cin >> M;//M个Sample
+    for(int i=0; i<M; i++){
+        cin >> N;
+        int v[N];
+        for(int j=0;j<N;j++)
+            cin >> v[j]; //v[j]<=30000        
+        cout << Intercept(v,N);
+        cout  << endl;
+
+    }   
+    
+    return 0;
+}
