@@ -1,0 +1,51 @@
+#include<iostream>
+
+
+
+using namespace std;
+
+
+void BinarySearch(int A[],int n,int x){
+    
+    //从大小为n的递增有序数组A中查找元素X，查找成功输出success和父亲
+    int low = 0;
+    int high = n-1;
+    int mid=(low+high)/2;
+    int father=mid;
+    while(low<=high){
+        mid = (low+high)/2;
+        if(A[mid]==x){
+            cout << "success, father is "<< A[father];
+            return;
+        }
+            
+        else if(A[mid]>x)
+            high = mid-1;
+        else
+            low = mid+1;;
+        father = mid;
+    }
+    cout << "not found, father is " << A[father];
+    return;
+    
+}
+    
+
+
+int main() {
+    int M,N,X;
+
+    cin >> M;//M个Sample
+    for(int i=0; i<M; i++){
+        cin >> N;
+        cin >> X;
+        int v[N];
+        for(int j=0;j<N;j++)
+            cin >> v[j]; //v[j]<=30000        
+        BinarySearch(v,N,X);
+        cout  << endl;
+
+    }   
+    
+    return 0;
+}
