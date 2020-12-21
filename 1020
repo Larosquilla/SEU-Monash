@@ -1,0 +1,45 @@
+#include<iostream>
+
+#include<limits.h>
+#include<algorithm>
+
+using namespace std;
+
+
+int MatrixChain(int r[],int c[],int n){
+    //n个矩阵连乘，矩阵i的行和列是r[i],c[i],返回连乘的最小乘法代价
+    int m[n][n];
+    for(int i=0;i<n;i++)
+        m[i][i]=0;
+    for(int i=0;i<n;i++)
+        for(int j=i+1;j<n;j++)
+            m[i][j] = INT_MAX;
+    
+    for(int len=2;len<=n;len++)//len是链长
+        for(int i=0;i<=n-len;i++){
+            int j=i+len-1;
+            for(int k=i;k<j;k++)
+                m[i][j] = min(m[i][j],m[i][k]+m[k+1][j]+r[i]*c[k]*c[j]);
+    }
+    return m[0][n-1];
+}
+    
+
+
+int main() {
+    int M,N,X;
+
+    cin >> M;//M个Sample
+    for(int i=0; i<M; i++){
+        cin >> N;
+        int r[N],c[N];
+        for(int j=0;j<N;j++){
+            cin >> r[j] >> c[j]; 
+        }
+        cout << MatrixChain(r,c,N);
+        cout  << endl;
+
+    }   
+    
+    return 0;
+}
