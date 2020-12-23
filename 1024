@@ -1,0 +1,56 @@
+#include<iostream>
+#include<iomanip>
+#include<float.h>
+#include<algorithm>
+
+using namespace std;
+
+
+float Optimal_BST(int a[],float p[],float q[],int n){
+    //N个关键字，关键字i的搜索概率为p[i],失败结点的概率为p[i],建立搜索代价最小的二叉排序树
+    float w[n+2][n+1];//w[i][j]是i到j加上空节点组成的树的代价，是一个客观增量
+    float e[n+2][n+1];//下面有e[j+1];
+    for(int i=1;i<=n+1;i++){
+        w[i][i-1]=q[i-1];//
+        e[i][i-1]=0;//=0算的是实体结点路径长度，=q[i-1]是把虚节点也算进路径长度
+    }
+    for(int i=1;i<=n;i++)
+        for(int j=i;j<=n;j++)
+            e[i][j]=FLT_MAX;
+    
+    for(int len=1;len<=n;len++){ //
+        for(int i=1;i<=n-len+1;i++){
+            int j=i+len-1;
+            w[i][j]=w[i][j-1]+p[j]+q[j];
+            for(int k=i;k<=j;k++)//和矩阵链乘的区别就是i,j也可以为root
+                e[i][j] = min(e[i][j],e[i][k-1]+e[k+1][j]+w[i][j]);//这里会出现e[j+1]，以k为root构建
+        }//for i
+    }// for len
+            
+    return e[1][n];
+}
+    
+
+
+int main() {
+    int M,N;
+
+    cin >> M;//M个Sample
+    for(int i=0; i<M; i++){
+        cin >> N;//N个关键字
+        int a[N+1];
+        float p[N+1],q[N+1];//关键字a[n]对应搜索概率为p[n],失败结点q[n]
+        for(int j=1;j<=N;j++){
+            cin >> a[j];//结点关键字
+        }
+        for(int j=1;j<=N;j++)
+            cin >> p[j];
+        for(int j=0;j<=N;j++)//失败的点比关键字点多一个
+            cin >> q[j];
+        cout << setiosflags(ios_base::fixed) << setprecision(6) << Optimal_BST(a,p,q,N);
+        cout  << endl;
+
+    }   
+    
+    return 0;
+}
