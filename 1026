@@ -22,10 +22,10 @@ long long InsertMult(int v[],int N, int K) {
         for(int j=1;j<i;++j)
             dp[i][j]=-1;
     
-    for(int j=1;j<=K;++j)
+    for(int j=1;j<=K;++j)//dp[i][j]表示在1-i中插入j个乘号
         for(int i=j+1;i<=N;++i)
-            for(int k=j+1;k<=i;++k)
-                dp[i][j]=max(dp[i][j],dp[k][j-1]*(sum[i]-sum[k]));
+            for(int k=j+1;k<=i;++k)//乘号j的插入位置是k，表示在v[k]前面插入乘号
+                dp[i][j]=max(dp[i][j],dp[k-1][j-1]*(sum[i]-sum[k-1]));
     return dp[N][K];
 }
     
